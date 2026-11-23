@@ -1,0 +1,642 @@
+{
+  "header": {
+    "numero": "4600685026",
+    "cliente": "Petrobras",
+    "data_emissao": "2026-05-10",
+    "vigencia": "2026-2028",
+    "condicao_pagamento": "30 dias",
+    "clausula_revisao": "15.3",
+    "regime": "presumido",
+    "is_petrobras": true
+  },
+  "items": [
+    {
+      "item": "1",
+      "descricao": "Estrutura Metálica",
+      "unidade": "kg",
+      "quantidade": "1000",
+      "preco_unitario": "52.4205",
+      "total": "52420.5000",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "2",
+      "descricao": "Bem 2",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "3",
+      "descricao": "Bem 3",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "4",
+      "descricao": "Bem 4",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "5",
+      "descricao": "Bem 5",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "6",
+      "descricao": "Bem 6",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "7",
+      "descricao": "Bem 7",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "8",
+      "descricao": "Bem 8",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "9",
+      "descricao": "Bem 9",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "10",
+      "descricao": "Bem 10",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "11",
+      "descricao": "Bem 11",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "12",
+      "descricao": "Bem 12",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "13",
+      "descricao": "Bem 13",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "14",
+      "descricao": "Bem 14",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "15",
+      "descricao": "Bem 15",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "16",
+      "descricao": "Bem 16",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "17",
+      "descricao": "Bem 17",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "18",
+      "descricao": "Bem 18",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "19",
+      "descricao": "Bem 19",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "20",
+      "descricao": "Bem 20",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "21",
+      "descricao": "Bem 21",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "22",
+      "descricao": "Bem 22",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "23",
+      "descricao": "Bem 23",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "24",
+      "descricao": "Bem 24",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "25",
+      "descricao": "Bem 25",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "26",
+      "descricao": "Bem 26",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "27",
+      "descricao": "Bem 27",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "28",
+      "descricao": "Bem 28",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "29",
+      "descricao": "Bem 29",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "30",
+      "descricao": "Bem 30",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "31",
+      "descricao": "Bem 31",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "32",
+      "descricao": "Bem 32",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "33",
+      "descricao": "Bem 33",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "34",
+      "descricao": "Bem 34",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "35",
+      "descricao": "Bem 35",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "36",
+      "descricao": "Bem 36",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "37",
+      "descricao": "Bem 37",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "38",
+      "descricao": "Bem 38",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "39",
+      "descricao": "Bem 39",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "40",
+      "descricao": "Bem 40",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "41",
+      "descricao": "Bem 41",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "900000.00",
+      "total": "900000.00",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "42",
+      "descricao": "Bem 42",
+      "unidade": "un",
+      "quantidade": "1",
+      "preco_unitario": "2724120.41",
+      "total": "2724120.41",
+      "natureza": "BEM",
+      "aliquotas": {
+        "icms": "0.12",
+        "ipi": "0"
+      }
+    },
+    {
+      "item": "1.1",
+      "descricao": "Beneficiamento – Tubulação",
+      "unidade": "h",
+      "quantidade": "1000",
+      "preco_unitario": "36.80",
+      "total": "36800.00",
+      "natureza": "SERVIÇO",
+      "aliquotas": {
+        "iss": "0.03"
+      }
+    },
+    {
+      "item": "1.2",
+      "descricao": "Serviço 1.2",
+      "unidade": "h",
+      "quantidade": "1",
+      "preco_unitario": "5000000.00",
+      "total": "5000000.00",
+      "natureza": "SERVIÇO",
+      "aliquotas": {
+        "iss": "0.03"
+      }
+    },
+    {
+      "item": "1.3",
+      "descricao": "Serviço 1.3",
+      "unidade": "h",
+      "quantidade": "1",
+      "preco_unitario": "5000000.00",
+      "total": "5000000.00",
+      "natureza": "SERVIÇO",
+      "aliquotas": {
+        "iss": "0.03"
+      }
+    },
+    {
+      "item": "1.4",
+      "descricao": "Serviço 1.4",
+      "unidade": "h",
+      "quantidade": "1",
+      "preco_unitario": "5000000.00",
+      "total": "5000000.00",
+      "natureza": "SERVIÇO",
+      "aliquotas": {
+        "iss": "0.03"
+      }
+    },
+    {
+      "item": "1.5",
+      "descricao": "Serviço 1.5",
+      "unidade": "h",
+      "quantidade": "1",
+      "preco_unitario": "1391386.00",
+      "total": "1391386.00",
+      "natureza": "SERVIÇO",
+      "aliquotas": {
+        "iss": "0.03"
+      }
+    }
+  ],
+  "ppu_total_bens": "38776540.9100",
+  "ppu_total_servicos": "16428186.00",
+  "saldo": {
+    "saldo_2026": "0",
+    "saldo_2027": "55204726.9100"
+  },
+  "documentos": [
+    {
+      "path": "contrato-petrobras.pdf",
+      "kind": "contrato"
+    },
+    {
+      "path": "ppu-petrobras.xlsx",
+      "kind": "ppu"
+    }
+  ],
+  "referencias_legais": [
+    "EC 132/2023",
+    "LC 214/2025",
+    "TCU TC 006.529/2026-7",
+    "Sefaz-SP RC 33.083/2026"
+  ]
+}

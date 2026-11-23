@@ -1,0 +1,48 @@
+# Premissas padrao do cenario 2027 - Reforma Tributaria (EC 132/2023, LC 214/2025).
+# Valores como string para preservar precisao decimal. Cada parametro tem fonte.
+# Editavel: overrides por arquivo ou pela aba Premissas do XLSX recalculam tudo.
+
+cenario_padrao:
+  value: A
+  source: "Sefaz-SP RC 33.083/2026 e Sefaz-PR; Cenario A (CBS/IBS na base do ICMS/ISS) e o conservador"
+
+parameters:
+  pis_presumido:
+    value: "0.0065"
+    source: "PIS cumulativo (Lucro Presumido); extinto em 2027"
+  pis_real:
+    value: "0.0165"
+    source: "PIS nao cumulativo (Lucro Real); extinto em 2027"
+  cofins_presumido:
+    value: "0.0300"
+    source: "Cofins cumulativo (Lucro Presumido); extinto em 2027"
+  cofins_real:
+    value: "0.0760"
+    source: "Cofins nao cumulativo (Lucro Real); extinto em 2027"
+  icms:
+    value: "0.12"
+    source: "Conforme operacao (ex.: interestadual SP->RJ 12%); mantido em 2027, reducao a partir de 2029"
+  iss:
+    value: "0.03"
+    source: "Aliquota do municipio ou contrato (ex.: Pindamonhangaba, item 14.01, 3%); mantido em 2027"
+  iss_petrobras_multi:
+    value: "0.05"
+    source: "Petrobras com varias cidades usa 5%; confirmar com DFP ou planilha do cliente"
+  ipi:
+    value: "0.00"
+    source: "IPI 0% salvo informacao diferente; zerado em 2027 com excecoes (ZFM)"
+  difal:
+    value: "0.00"
+    source: "DIFAL so se tiver valor no preco; se a PPU indicar % mas valor '-', nao deduzir"
+  cbs_referencia:
+    value: "0.113468"
+    source: "CBS de referencia 11,3468% (TCU, TC 006.529/2026-7); sujeita a confirmacao do Senado"
+  cbs_reducao_transitoria:
+    value: "0.0010"
+    source: "Reducao transitoria CBS 2027 de 0,1 p.p.; CBS efetiva = 11,2468%"
+  ibs_estadual:
+    value: "0.0005"
+    source: "IBS 2027 estadual 0,05%"
+  ibs_municipal:
+    value: "0.0005"
+    source: "IBS 2027 municipal 0,05%"
