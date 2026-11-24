@@ -54,3 +54,12 @@ def test_json_roundtrip():
     assert restored.get("iss") == Decimal("0.05")
     assert restored.cbs_efetiva == ps.cbs_efetiva
     assert restored.source("iss") == ps.source("iss")
+    assert restored.regime_padrao == "presumido"
+
+
+def test_regime_padrao_e_presumido():
+    ps = load_premises()
+    assert ps.regime_padrao == "presumido"
+    assert "Presumido" in ps.regime_source
+    ps_over = load_premises(overrides={"regime_padrao": "real"})
+    assert ps_over.regime_padrao == "real"

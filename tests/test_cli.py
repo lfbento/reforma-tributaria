@@ -24,6 +24,7 @@ def test_run_produz_quatro_entregaveis(tmp_path):
     assert (tmp_path / "4600685026.xlsx").exists()
     assert (tmp_path / "parecer-4600685026.md").exists()
     assert (tmp_path / "carta-4600685026.md").exists()
+    assert (tmp_path / "memorando-4600685026.docx").exists()
     assert (tmp_path / "priorizacao.md").exists()
     wb = load_workbook(tmp_path / "4600685026.xlsx")
     assert wb.sheetnames == SHEETS
@@ -65,3 +66,37 @@ def test_override_recalcula_tudo(tmp_path):
     base = json.loads((tmp_path / "base" / "validacao.json").read_text())
     novo = json.loads((tmp_path / "novo" / "validacao.json").read_text())
     assert base["4600685026"]["total_2027_a"] != novo["4600685026"]["total_2027_a"]
+
+
+def test_extract_zip_command(tmp_path):
+    import zipfile
+
+    p = tmp_path / "ppu.xlsx"
+    wb = Workbook()
+    ws = wb.active
+    ws.append(["Item", "Descricao", "Un", "Qtd", "P unit", "Total"])
+    ws.append(["1", "Estrutura", "kg", 10, 100, 1000])
+    wb.save(p)
+
+    z = tmp_path / "pacote.zip"
+    with zipfile.ZipFile(z, "w") as zf:
+        zf.write(p, arcname="docs/ppu.xlsx")
+
+    out = tmp_path / "extraido_zip.json"
+    r = run_cli("extract", str(z), "--out", str(out))
+    assert r.returncode == 0, r.stderr
+    data = json.loads(out.read_text(encoding="utf-8"))
+    assert data["items"][0]["item"] == "1"
+    assert data["documentos"][0]["path"] == "pacote.zip!/docs/ppu.xlsx"
+
+
+def test_regime_flag_sobrescreve_calculo(tmp_path):
+    r_pres = run_cli("calc", str(FIX), "--regime", "presumido")
+    r_real = run_cli("calc", str(FIX), "--regime", "real")
+    assert r_pres.returncode == 0 and r_real.returncode == 0
+    d_pres = json.loads(r_pres.stdout)
+    d_real = json.loads(r_real.stdout)
+    assert d_pres["header"]["regime"] == "presumido"
+    assert d_real["header"]["regime"] == "real"
+    assert d_pres["results"][0]["a_pis"] == "0.0065"
+    assert d_real["results"][0]["a_pis"] == "0.0165"

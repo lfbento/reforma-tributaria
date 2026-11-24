@@ -23,6 +23,8 @@ def load_input(path: str | Path) -> dict[str, Any]:
 
 def analyze(data: dict[str, Any], ps: PremiseSet) -> ContractAnalysis:
     header = ContractHeader.from_dict(data["header"])
+    if not header.regime:
+        header.regime = ps.regime_padrao
     items = [LineItem.from_dict(i) for i in data["items"]]
     # triagem: o preco de referencia vira o P do item (Petrobras P0 / bruto)
     for it in items:

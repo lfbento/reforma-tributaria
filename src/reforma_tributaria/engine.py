@@ -41,7 +41,7 @@ def round_money(value: Decimal) -> Decimal:
 
 
 def _rates(item: LineItem, header: ContractHeader, ps: PremiseSet) -> dict[str, Decimal]:
-    regime = header.regime or "presumido"
+    regime = header.regime or ps.regime_padrao
     a_pis, a_cof = ps.pis_cofins(regime)
     natureza = classify_nature(item)
     if natureza == NATUREZA_BEM:

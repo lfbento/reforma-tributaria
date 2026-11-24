@@ -99,6 +99,7 @@ class ContractHeader:
     clausula_revisao: str | None = None
     regime: str | None = None  # presumido | real | simples
     is_petrobras: bool = False
+    client_logo_path: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return _stringify(asdict(self))

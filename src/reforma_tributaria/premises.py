@@ -47,6 +47,9 @@ class PremiseSet:
     parameters: dict[str, Premise] = field(default_factory=dict)
     cenario: str = "A"
     cenario_source: str = ""
+    legal_base_date: str = ""
+    regime_padrao: str = REGIME_PRESUMIDO
+    regime_source: str = ""
 
     def get(self, key: str) -> Decimal:
         return self.parameters[key].value
@@ -72,10 +75,16 @@ class PremiseSet:
         params = {k: Premise(k, p.value, p.source) for k, p in self.parameters.items()}
         cenario = self.cenario
         cenario_source = self.cenario_source
+        regime_padrao = self.regime_padrao
+        regime_source = self.regime_source
         for key, value in overrides.items():
             if key == "cenario_padrao":
                 cenario = str(value)
                 cenario_source = f"override do usuario (padrao: {self.cenario_source})"
+                continue
+            if key == "regime_padrao":
+                regime_padrao = str(value)
+                regime_source = f"override do usuario (padrao: {self.regime_source})"
                 continue
             if key not in params:
                 raise KeyError(f"premissa desconhecida: {key}")
@@ -83,19 +92,31 @@ class PremiseSet:
             params[key] = Premise(
                 key, _dec(value), f"override do usuario (padrao: {old.source})"
             )
-        return PremiseSet(params, cenario, cenario_source)
+        return PremiseSet(
+            params, cenario, cenario_source, self.legal_base_date, regime_padrao, regime_source
+        )
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "parameters": {k: p.to_dict() for k, p in self.parameters.items()},
             "cenario": self.cenario,
             "cenario_source": self.cenario_source,
+            "legal_base_date": self.legal_base_date,
+            "regime_padrao": self.regime_padrao,
+            "regime_source": self.regime_source,
         }
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "PremiseSet":
         params = {k: Premise.from_dict(v) for k, v in data["parameters"].items()}
-        return cls(params, data.get("cenario", "A"), data.get("cenario_source", ""))
+        return cls(
+            params,
+            data.get("cenario", "A"),
+            data.get("cenario_source", ""),
+            data.get("legal_base_date", ""),
+            data.get("regime_padrao", REGIME_PRESUMIDO),
+            data.get("regime_source", ""),
+        )
 
 
 def load_premises(
@@ -108,7 +129,15 @@ def load_premises(
         for key, spec in data["parameters"].items()
     }
     cenario = data.get("cenario_padrao", {})
-    ps = PremiseSet(params, str(cenario.get("value", "A")), cenario.get("source", ""))
+    regime = data.get("regime_padrao", {})
+    ps = PremiseSet(
+        params,
+        str(cenario.get("value", "A")),
+        cenario.get("source", ""),
+        str(data.get("legal_base_date", "")),
+        str(regime.get("value", REGIME_PRESUMIDO)),
+        regime.get("source", ""),
+    )
     if overrides:
         ps = ps.with_overrides(overrides)
     return ps

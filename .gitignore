@@ -6,3 +6,5 @@ __pycache__/
 saida/
 build/
 dist/
+.docx
+amostra/

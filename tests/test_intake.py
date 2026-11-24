@@ -148,3 +148,192 @@ def test_extract_schedule_xlsx(tmp_path):
 def test_absent_schedule_is_pending(tmp_path):
     assert intake.extract_schedule(tmp_path / "nao-existe.xlsx").pendente is True
     assert intake.compute_saldo([]).pendente is True
+
+
+def test_safe_path_hash_and_cache(tmp_path):
+    f = tmp_path / "doc.txt"
+    f.write_text("conteudo teste", encoding="utf-8")
+    sp = intake.safe_path(f)
+    assert sp.exists()
+    h1 = intake.file_hash(f)
+    h2 = intake.file_hash(f)
+    assert len(h1) == 32 and h1 == h2
+
+    cache_file = tmp_path / intake.CACHE_FILENAME
+    intake.save_cache(cache_file, {"k": "v"})
+    assert intake.load_cache(cache_file) == {"k": "v"}
+
+
+def test_parse_markdown_table():
+    md = (
+        "Numero: 4600999000\n"
+        "Cliente: Petrobras\n"
+        "| Item | Descricao | Un | Qtd | P unit | Total |\n"
+        "|---|---|---|---|---|---|\n"
+        "| 1 | Valvula Esfera | un | 2 | 150.00 | 300.00 |\n"
+    )
+    header, items = intake._parse_labeled_text([(3, md)], "contrato.docx")
+    assert header.numero == "4600999000"
+    assert header.is_petrobras is True
+    assert len(items) == 1
+    assert items[0].preco_unitario == Decimal("150.00")
+    assert items[0].fonte.pagina == 3
+
+
+def test_extract_office_and_msg(tmp_path, monkeypatch):
+    class _FakeRes:
+        text_content = (
+            "Numero: 12345\n"
+            "Cliente: Vale\n"
+            "| Item | Descricao | Un | Qtd | P unit | Total |\n"
+            "|---|---|---|---|---|---|\n"
+            "| 1 | Flange | un | 4 | 50.00 | 200.00 |\n"
+        )
+
+    monkeypatch.setattr(intake, "_extract_with_markitdown", lambda _p: _FakeRes.text_content)
+
+    docx_file = tmp_path / "contrato.docx"
+    docx_file.write_bytes(b"fake-docx")
+    h1, it1 = intake.extract_office(docx_file)
+    assert h1.numero == "12345"
+    assert it1[0].fonte.arquivo == "contrato.docx"
+
+    msg_file = tmp_path / "pedido.msg"
+    msg_file.write_bytes(b"\xd0\xcf\x11\xe0")  # cabecalho binario OLE2
+    h2, it2 = intake.extract_email(msg_file)
+    assert h2.numero == "12345"
+    assert it2[0].fonte.arquivo == "pedido.msg"
+
+
+def test_extract_pdf_docling_fallback_and_cache(tmp_path, monkeypatch):
+    pdf_file = tmp_path / "scan.pdf"
+    pdf_file.write_bytes(make_pdf([""]))  # PDF sem texto extraivel pelo pdfplumber
+    cache_file = tmp_path / ".intake-cache.json"
+
+    calls = {"n": 0}
+
+    def _fake_docling(_p):
+        calls["n"] += 1
+        return [
+            (
+                2,
+                "Numero: 777\n"
+                "| Item | Descricao | Un | Qtd | P unit | Total |\n"
+                "|---|---|---|---|---|---|\n"
+                "| 1 | Tubo Aco | m | 5 | 20.00 | 100.00 |\n",
+            )
+        ]
+
+    monkeypatch.setattr(intake, "_docling_pages", _fake_docling)
+
+    h1, it1 = intake.extract_pdf(pdf_file, cache_path=cache_file)
+    assert calls["n"] == 1
+    assert h1.numero == "777"
+    assert len(it1) == 1
+    assert it1[0].fonte.pagina == 2
+
+    # Segunda chamada deve usar cache MD5 sem acionar Docling novamente
+    h2, it2 = intake.extract_pdf(pdf_file, cache_path=cache_file)
+    assert calls["n"] == 1
+    assert h2.numero == "777"
+    assert it2[0].fonte.pagina == 2
+
+
+def test_extract_mpp_mocked(tmp_path, monkeypatch):
+    import types
+
+    mpp_file = tmp_path / "crono.mpp"
+    mpp_file.write_bytes(b"fake-mpp")
+    jar_file = tmp_path / "mpxj.jar"
+    jar_file.write_bytes(b"fake-jar")
+
+    class _FakeTask:
+        def __init__(self, tid, name, start, finish, dur, pct):
+            self._id = tid
+            self._name = name
+            self._start = start
+            self._finish = finish
+            self._dur = dur
+            self._pct = pct
+
+        def getID(self): return self._id
+        def getName(self): return self._name
+        def getStart(self): return self._start
+        def getFinish(self): return self._finish
+        def getDuration(self): return self._dur
+        def getPercentageComplete(self): return self._pct
+
+    class _FakeProject:
+        def getTasks(self):
+            return [
+                _FakeTask(1, "Mobilizacao", "2026-09-01", "2026-11-30", "60d", 100),
+                _FakeTask(2, "Montagem", "2026-12-01", "2027-03-15", "90d", 10),
+            ]
+
+    class _FakeReader:
+        def read(self, _p):
+            return _FakeProject()
+
+    fake_jpype = types.ModuleType("jpype")
+    fake_jpype.isJVMStarted = lambda: True
+    fake_jpype.startJVM = lambda **kw: None
+    fake_jpype_imports = types.ModuleType("jpype.imports")
+
+    fake_net = types.ModuleType("net")
+    fake_net_sf = types.ModuleType("net.sf")
+    fake_net_sf_mpxj = types.ModuleType("net.sf.mpxj")
+    fake_net_sf_mpxj_reader = types.ModuleType("net.sf.mpxj.reader")
+    fake_net_sf_mpxj_reader.UniversalProjectReader = _FakeReader
+
+    monkeypatch.setattr(intake, "_find_mpxj_jar", lambda: jar_file)
+    monkeypatch.setitem(__import__("sys").modules, "jpype", fake_jpype)
+    monkeypatch.setitem(__import__("sys").modules, "jpype.imports", fake_jpype_imports)
+    monkeypatch.setitem(__import__("sys").modules, "net", fake_net)
+    monkeypatch.setitem(__import__("sys").modules, "net.sf", fake_net_sf)
+    monkeypatch.setitem(__import__("sys").modules, "net.sf.mpxj", fake_net_sf_mpxj)
+    monkeypatch.setitem(__import__("sys").modules, "net.sf.mpxj.reader", fake_net_sf_mpxj_reader)
+
+    res = intake.extract_mpp(mpp_file)
+    assert res["resumo_corte"] == {"ate_2026": 1, "2027_ou_posterior": 1}
+    assert res["saldo"]["pendente"] is True
+    assert any(FLAG_PENDENTE in p for p in res["pendencias"])
+
+
+def test_extract_archive_zip(tmp_path):
+    import zipfile
+
+    xlsx_path = tmp_path / "ppu.xlsx"
+    _make_ppu(xlsx_path)
+    zip_path = tmp_path / "lote.zip"
+    with zipfile.ZipFile(zip_path, "w") as zf:
+        zf.write(xlsx_path, arcname="sub/ppu.xlsx")
+
+    extracted = intake.extract_archive_files(zip_path, tmp_path / "out")
+    assert len(extracted) == 1
+    assert extracted[0].name == "ppu.xlsx"
+
+
+def test_parse_ariba_petrobras_layout():
+    p1 = "Pedido de compra: 4515655362\nOBRIGAÇÕES DA PETROBRAS\nPedido enviado em: 2026-10-06"
+    p26 = (
+        "Itens de linha\n"
+        "10 1 000000000030329019 Material 1,000 15 abr. R$241.558,84 R$241.558,84\n"
+        "(UN) 2027 BRL BRL\n"
+        "Conjunto do resfriador a ar\n"
+        "STATUS\n"
+    )
+    header, items = intake._parse_labeled_text([(1, p1), (26, p26)], "pedido.pdf")
+    assert header.numero == "4515655362"
+    assert header.is_petrobras is True
+    assert len(items) == 1
+    assert items[0].item == "10"
+    assert items[0].unidade == "UN"
+    assert items[0].descricao == "Conjunto do resfriador a ar"
+    assert items[0].preco_unitario == Decimal("241558.84")
+    assert items[0].fonte.pagina == 26
+
+
+def test_extract_pdf_logo_sem_imagem_retorna_none(tmp_path):
+    p = tmp_path / "sem-logo.pdf"
+    p.write_bytes(make_pdf(["Pedido de compra: 123"]))
+    assert intake.extract_pdf_logo(p, out_dir=tmp_path / "logos") is None

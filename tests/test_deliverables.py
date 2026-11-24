@@ -139,4 +139,77 @@ def test_formulas_recalculam_igual_ao_motor(analysis, premises):
     tot = sum(Decimal(str(val("Calculo_Bens", f"X{r}"))) for r in range(2, nb + 2))
     tot += sum(Decimal(str(val("Calculo_Servicos", f"X{r}"))) for r in range(2, ns + 2))
     assert abs(tot - analysis.total_a()) <= Decimal("0.01")
-    assert abs(Decimal(str(val("Resumo", "B4"))) - analysis.total_a()) <= Decimal("0.01")
+    ws_resumo = wb["Resumo"]
+    row_a = next(
+        r for r in range(1, ws_resumo.max_row + 1)
+        if ws_resumo.cell(r, 1).value == "Total 2027 (A)"
+    )
+    assert abs(Decimal(str(val("Resumo", f"B{row_a}"))) - analysis.total_a()) <= Decimal("0.01")
+
+
+def test_resumo_executivo_branding_e_logos(analysis, premises, tmp_path):
+    from PIL import Image
+
+    comp_logo = tmp_path / "NNNN.png"
+    cli_logo = tmp_path / "cliente.png"
+    Image.new("RGB", (200, 60), color=(27, 54, 93)).save(comp_logo)
+    Image.new("RGB", (180, 45), color=(0, 128, 64)).save(cli_logo)
+
+    wb = dv.build_workbook(
+        analysis,
+        premises,
+        empresa="Empresa Teste S.A.",
+        logo_path=comp_logo,
+        client_logo_path=cli_logo,
+        calculation_date="24/11/2026 09:00",
+    )
+    ws = wb["Resumo"]
+    meta = {ws.cell(r, 1).value: ws.cell(r, 2).value for r in range(1, ws.max_row + 1)}
+    assert meta["Empresa"] == "Empresa Teste S.A."
+    assert meta["Data do cálculo"] == "24/11/2026 09:00"
+    assert "EC 132/2023" in meta["Base de dados das leis"]
+    assert len(ws._images) == 2
+
+    # Formatacao executiva aplicada
+    ws_bens = wb["Calculo_Bens"]
+    assert ws_bens.cell(1, 1).fill.fgColor.rgb.endswith("1B365D")
+    assert ws_bens.cell(2, 6).number_format == dv._FMT_MONEY
+    assert ws_bens.page_setup.orientation == ws_bens.ORIENTATION_LANDSCAPE
+
+    # Fallback gracioso sem logos
+    wb_no_logo = dv.build_workbook(
+        analysis,
+        premises,
+        logo_path=tmp_path / "nao-existe.png",
+        client_logo_path=None,
+    )
+    assert len(wb_no_logo["Resumo"]._images) == 0
+
+
+def test_memorando_formato_e_docx_timbrado(analysis, premises, tmp_path):
+    memo_md = dv.build_carta(analysis, premises, empresa="Nacional Teste", calculation_date="24/11/2026")
+    for token in ("MEMORANDO", "**De:** Nacional Teste", "**Para:** Petrobras", "**Data:** 24/11/2026", "**Assunto:**"):
+        assert token in memo_md
+
+    # Usando Papel timbrado.docx real da raiz
+    doc = dv.build_memorando_docx(analysis, premises, calculation_date="24/11/2026")
+    out_docx = tmp_path / "memorando.docx"
+    doc.save(out_docx)
+    assert out_docx.exists()
+
+    import docx
+    reloaded = docx.Document(str(out_docx))
+    body_text = "\n".join(p.text for p in reloaded.paragraphs)
+    assert "MEMORANDO TÉCNICO-COMERCIAL" in body_text
+    assert "EC 132/2023" in body_text
+    assert len(reloaded.tables) == 2
+    footer_text = " ".join(p.text for p in reloaded.sections[0].footer.paragraphs)
+    assert "NACIONALINDUSTRIA" in footer_text.upper()
+
+    # Fallback gracioso sem papel timbrado
+    doc_fb = dv.build_memorando_docx(
+        analysis,
+        premises,
+        letterhead_path=tmp_path / "inexistente.docx",
+    )
+    assert len(doc_fb.tables) == 2

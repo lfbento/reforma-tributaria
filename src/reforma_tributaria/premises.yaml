@@ -2,6 +2,12 @@
 # Valores como string para preservar precisao decimal. Cada parametro tem fonte.
 # Editavel: overrides por arquivo ou pela aba Premissas do XLSX recalculam tudo.
 
+legal_base_date: "2026-10-01 — EC 132/2023, LC 214/2025 e TCU TC 006.529/2026-7"
+
+regime_padrao:
+  value: presumido
+  source: "Lucro Presumido (regime tributario padrao da Nacional Industria: PIS 0,65% + Cofins 3,00%)"
+
 cenario_padrao:
   value: A
   source: "Sefaz-SP RC 33.083/2026 e Sefaz-PR; Cenario A (CBS/IBS na base do ICMS/ISS) e o conservador"

@@ -39,11 +39,11 @@ A aba Saldo_2027 SHALL apresentar o impacto somente sobre o saldo faturável em 
 - **THEN** a aba Saldo_2027 mostra o impacto calculado apenas sobre esse saldo
 
 ### Requirement: Aba Resumo
-A aba Resumo SHALL apresentar total atual, base, total 2027 nos cenários A e B, variação, conferências e a cláusula contratual de revisão.
+A aba Resumo SHALL apresentar cabeçalho executivo institucional (com nome da empresa, data do cálculo, data da base de dados das leis/premissas, logo da empresa quando `NNNN.png` estiver disponível e logo do cliente quando extraído do PDF) seguido de total atual, base, total 2027 nos cenários A e B, variação, conferências e a cláusula contratual de revisão.
 
 #### Scenario: Conteúdo da aba Resumo
 - **WHEN** o usuário abre a aba Resumo
-- **THEN** vê total atual, base, total 2027 (A e B), variação, conferências e a cláusula contratual
+- **THEN** vê o cabeçalho executivo (empresa, data do cálculo, data da base legal e logos disponíveis) e os indicadores total atual, base, total 2027 (A e B), variação, conferências e a cláusula contratual
 
 ### Requirement: Aba Fontes
 A aba Fontes SHALL listar os documentos de entrada e as referências legais usadas.
@@ -60,15 +60,19 @@ O sistema SHALL gerar um parecer executivo de até uma página contendo contrato
 - **THEN** gera parecer de até uma página com contrato/pedido, cliente, saldo 2027, impacto em R$ e %, cláusula de revisão, riscos e recomendação
 
 ### Requirement: Minuta de carta ou e-mail ao cliente
-O sistema SHALL gerar minuta de carta ou e-mail em tom formal e técnico, contendo fundamento (EC 132/2023, LC 214/2025 e cláusula contratual), valor-base apurado, nova PPU proposta para 2027, ressalva sobre CBS/IBS na base do ICMS/ISS e pedido de aditivo ou revisão.
+O sistema SHALL gerar minuta de comunicação ao cliente em formato de Memorando formal e técnico, contendo cabeçalho de memorando (`De`, `Para`, `Data`, `Ref.`, `Assunto`), fundamento (EC 132/2023, LC 214/2025 e cláusula contratual), valor-base apurado, nova PPU proposta para 2027, ressalva sobre CBS/IBS na base do ICMS/ISS e pedido de aditivo ou revisão, além de gerar o documento Word (`memorando-<numero>.docx`) utilizando o modelo `Papel timbrado.docx` da empresa quando disponível.
 
 #### Scenario: Conteúdo da minuta
 - **WHEN** o agente prepara a comunicação ao cliente
-- **THEN** a minuta inclui fundamento legal e contratual, valor-base apurado, nova PPU proposta para 2027, ressalva sobre CBS/IBS na base do ICMS/ISS e pedido de aditivo ou revisão
+- **THEN** a minuta em formato de memorando inclui cabeçalho (`De`, `Para`, `Data`, `Ref.`, `Assunto`), fundamento legal e contratual, valor-base apurado, nova PPU proposta para 2027, ressalva sobre CBS/IBS na base do ICMS/ISS e pedido de aditivo ou revisão
 
 #### Scenario: Ressalva de revisão da base
 - **WHEN** a minuta é gerada
 - **THEN** inclui ressalva de revisão caso a lei ou decisão judicial altere a base de cálculo do ICMS/ISS
+
+#### Scenario: Geração do memorando DOCX em papel timbrado
+- **WHEN** o sistema gera os entregáveis de negociação e o arquivo `Papel timbrado.docx` está presente na raiz do projeto (ou caminho informado)
+- **THEN** gera `memorando-<numero>.docx` preservando o cabeçalho e o rodapé do modelo timbrado com o conteúdo completo do memorando, operando com fallback limpo caso o modelo não esteja presente
 
 ### Requirement: Apenas rascunhos, sem envio
 O sistema SHALL NOT enviar e-mails nem cartas; SHALL gerar apenas rascunhos.
@@ -101,3 +105,14 @@ O sistema SHALL mostrar premissas e fórmulas de forma transparente; cada númer
 #### Scenario: Número no parecer ou carta
 - **WHEN** um valor aparece no parecer, na carta ou no Resumo
 - **THEN** o valor é rastreável até a planilha de cálculo, a premissa ou o documento de origem
+
+### Requirement: Formatação executiva corporativa na planilha XLSX
+O sistema SHALL aplicar formatação visual executiva em todas as abas da planilha XLSX, incluindo cabeçalhos estilizados, formatação monetária brasileira (`R$`) e percentual, largura de colunas ajustada, congelamento de painéis, linhas zebradas, destaque visual de alertas/flags e configuração de impressão em paisagem, mantendo inalteradas a linha de cabeçalho das tabelas de cálculo/premissas e todas as fórmulas vivas.
+
+#### Scenario: Estilização e formatos numéricos nas abas
+- **WHEN** o sistema gera o arquivo XLSX
+- **THEN** todas as abas possuem cabeçalho estilizado, células monetárias formatadas em Real, alíquotas em percentual, painéis congelados e larguras de coluna ajustadas sem quebrar fórmulas
+
+#### Scenario: Inserção de logos com fallback gracioso
+- **WHEN** o arquivo `NNNN.png` está presente na raiz do projeto e/ou o logo do cliente foi extraído do PDF
+- **THEN** o sistema insere as imagens redimensionadas no cabeçalho da aba Resumo sem sobrepor células de dados, e gera a planilha normalmente caso algum logo esteja ausente
